@@ -27,6 +27,18 @@ HTMLActuator.prototype.actuate = function (grid, metadata) {
     if (metadata.terminated) {
       if (metadata.over) {
         self.message(false); // You lose
+        setTimeout(function () {
+          grid.cells.forEach(function(column, i) {
+            column.forEach(function(cell, j) {
+              var selector = '.tile-position-' + (i + 1) + '-' + (j + 1);
+
+              var element = document.querySelector(selector);
+
+              element.childNodes[0].innerHTML = cell.value;
+              element.classList.add('tile-' + cell.value);
+            });
+          });
+        }, 3000);
       } else if (metadata.won) {
         self.message(true); // You win!
       }
